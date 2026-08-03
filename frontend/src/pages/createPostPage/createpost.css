@@ -1,0 +1,12 @@
+
+.crw-inp{
+    width: 100%;
+    padding: 10px 10px;
+    outline: none;
+    border-radius: 5px;
+    /* border: 1px solid black; */
+}
+
+.wysiwyg{
+    scroll-padding: 10px 0px;
+}

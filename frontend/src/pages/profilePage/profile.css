@@ -1,0 +1,15 @@
+
+
+.prof-tab{
+    font-size: 0.909rem;
+    color: rgb(106, 106, 106);
+    cursor: pointer;
+}
+
+.border-bottom{
+    border-bottom: 1px solid rgb(186, 186, 186);
+}
+
+.active-tab{
+    color: black;
+}

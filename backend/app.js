@@ -1,9 +1,11 @@
-import cookieParser from "cookie-parser";
-import cors from "cors"
 import express from "express";
 import dotenv from "dotenv"
+import cors from "cors"
+import cookieParser from "cookie-parser";
 import { userRoute } from "./src/routes/user.route.js";
+import { postRoute } from "./src/routes/post.route.js";
 import {v2 as cloudinary} from "cloudinary";
+import { connectdb } from "./src/db/index.js";
 
 dotenv.config({path : "./.env"})
 
@@ -15,6 +17,8 @@ cloudinary.config({
 
 const app = express();
 const port = 5000;
+
+connectdb();
 
 app.use(cors({
     origin : process.env.CORS_ORIGIN,
@@ -30,7 +34,7 @@ app.get("/", (req, res)=>{
 })
 
 app.use("/api/v1/users", userRoute)
-
+app.use("/api/v1/post", postRoute)
 
 app.listen(port, ()=>{
     console.log("Running on port: ", port);

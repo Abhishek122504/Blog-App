@@ -1,0 +1,11 @@
+.tabs{
+    border-bottom: 1px solid rgb(215, 215, 215);
+}
+
+.tabs_el{
+    cursor: pointer;
+}
+
+.active{
+    color: black;
+}

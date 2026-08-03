@@ -1,33 +1,65 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import Home from './pages/homePage/Home';
+import Main from './pages/MainPage/Main';
+import Library from './pages/libraryPage/Library';
+import Profile from './pages/profilePage/Profile';
+import Createpost from './pages/createPostPage/Createpost';
+import { Authenticate } from './components/Authenticated/Authenticate';
+import Login from './pages/LoginPage/Login';
+import Signup from './pages/SignupPage/Signup';
+import AuthLayout from './components/authlayout/AuthLayout';
+import Layout from './Layout';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+
+const route = createBrowserRouter([
+  {
+    path: '/',
+    element: <Home />
+  },
+
+  {
+    element: <Authenticate><Layout /></Authenticate>,
+    children: [
+      {
+        path: "home",
+        element: <Main />
+      },
+      {
+        path: "profile",
+        element: <Profile />
+      },
+      {
+        path: "library",
+        element: <Library />
+      },
+      {
+        path: "post",
+        element: <Createpost />
+      }
+    ]
+  },
+  {
+    path: 'auth',
+    element: <AuthLayout />,
+    children: [
+      {
+        path: 'login',
+        element: <Login />
+      },
+      {
+        path: 'signup',
+        element: <Signup />
+      }
+    ]
+  }
+])
+
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <RouterProvider router={route} />
     </>
   )
 }
