@@ -3,7 +3,7 @@ import { User } from "../models/user.model.js";
 
 const verifyJWT = async (req, res, next) => {
     try {
-        const refreshToken = req.cookies.accessToken || req.header("Authorization").replace("Bearer", "");
+        const refreshToken = req.cookies.refreshToken || req.header("Authorization")?.replace("Bearer", "");
 
         if (!refreshToken) {
             return res.status(401).json({ msg: "Unauthorized access" });

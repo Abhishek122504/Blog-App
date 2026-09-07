@@ -7,6 +7,18 @@
     /* border: 1px solid black; */
 }
 
-.wysiwyg{
-    scroll-padding: 10px 0px;
+.crop-container {
+    width: 600px;
+}
+
+.crop-area {
+    position: relative;
+    width: 600px;
+    height: 400px;
+}
+
+.crop-container button {
+    margin-top: 15px;
+    position: relative;
+    z-index: 1000;
 }

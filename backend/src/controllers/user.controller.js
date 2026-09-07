@@ -17,6 +17,18 @@ const generateAccessAndRefresh = async (id) => {
     }
 }
 
+const getCurrentUser = (req, res)=>{
+    const user = req.user;
+
+    if(!user) return res.status(500).json({msg: "User Not Authenticated"})
+
+    const currentUser = {
+        username: user.username
+    }
+
+    return res.status(200).json({user : currentUser});
+}
+
 const register = async (req, res) => {
     const { username, email, password } = req.body;
     let imagePath;
@@ -191,5 +203,6 @@ export {
     logout,
     updateProfile,
     updateAvatar,
-    updatePassword
+    updatePassword,
+    getCurrentUser
 }

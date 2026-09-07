@@ -23,6 +23,6 @@
 .content {
     grid-area: content;
 
-    overflow-y: hidden;
+    overflow-y: scroll;
     padding: 20px;
 }

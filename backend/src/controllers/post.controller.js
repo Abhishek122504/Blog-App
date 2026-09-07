@@ -2,27 +2,36 @@ import { Post } from "../models/post.model.js"
 import { uploadOnCloudinary } from "../utilities/cloudinary.js";
 
 
-const getAllPosts = async(req, res)=>{
-    try{
+const getAllPosts = async (req, res) => {
+    try {
         const page = Number(req.query.page) || 1;
-        const postPerPage = 20;
-        const skip = (page-1) * postPerPage;
+        const postPerPage = Number(req.query.limit) || 5;
+        const skip = (page - 1) * postPerPage;
 
         const posts = await Post.find()
-                                .select("_id title desc thumbnail postedBy likes createdAt")
-                                .limit(postPerPage)
-                                .skip(skip)
-                                .populate("postedBy", "username");
+            .select("_id title desc thumbnail postedBy likes createdAt")
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(postPerPage)
+            .populate("postedBy", "username");
+
+        const totalPosts = await Post.countDocuments();
+        const hasMore = skip + posts.length < totalPosts;
 
         return res.status(200).json({
             success: true,
-            posts: posts
-        })
-        
-    }catch(error){
-        return res.status(500).json({msg : "Error while fetching posts: post.controllers"})
+            posts: posts,
+            hasMore: hasMore
+        });
+
+    } catch (error) {
+        console.error("Error while fetching posts:", error);
+        return res.status(500).json({
+            success: false,
+            msg: "Error while fetching posts: post.controllers"
+        });
     }
-}
+};
 
 const uploadPost = async (req, res) => {
     try {
@@ -117,5 +126,6 @@ const deletePost = async(req, res) => {
 export {
     uploadPost,
     editPost,
-    deletePost
+    deletePost,
+    getAllPosts
 }

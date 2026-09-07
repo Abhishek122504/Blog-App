@@ -1,11 +1,18 @@
 import React from 'react'
-import { Outlet } from 'react-router'
+import { useSelector } from 'react-redux';
+import { Outlet, Navigate } from 'react-router'
+
 
 const AuthLayout = () => {
-  return (
-    <div>
-        <Outlet/>
-    </div>
-  )
+  const { authLoading, isLoggedIn } = useSelector(state => state.auth);
+
+  if (authLoading) return;
+
+  if (isLoggedIn) {
+      return <Navigate to="/home" replace />;
+  }
+
+  return <Outlet />;
 }
+
 export default AuthLayout

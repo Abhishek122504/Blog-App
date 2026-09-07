@@ -10,11 +10,19 @@ import Signup from './pages/SignupPage/Signup';
 import AuthLayout from './components/authlayout/AuthLayout';
 import Layout from './Layout';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import HomeLayout from './pages/homePage/HomeLayout';
+import AuthInitializer from './features/auth/AuthInitializer';
 
 const route = createBrowserRouter([
   {
     path: '/',
-    element: <Home />
+    element: <HomeLayout />,
+    children: [
+      {
+        path: '',
+        element: <Home/>
+      }
+    ]
   },
 
   {
@@ -59,6 +67,7 @@ function App() {
 
   return (
     <>
+      <AuthInitializer/>
       <RouterProvider router={route} />
     </>
   )

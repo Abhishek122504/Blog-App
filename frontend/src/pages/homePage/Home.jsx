@@ -1,5 +1,5 @@
 import React from "react";
-import featuredImage from "../../assets/FeaturedPostImage.png"
+import {Link}  from "react-router";
 import "./home.css"
 
 const Home = () => {
@@ -13,8 +13,8 @@ const Home = () => {
                     A space to read thoughtful stories, share your ideas, and connect with curious minds.
                 </p>
                 <div className="btn-actions text-white flex items-center gap-4">
-                    <button className="py-2 px-5 bg-black rounded-4xl cursor-pointer">Start reading</button>
-                    <button className="py-2 px-5 bg-black rounded-4xl cursor-pointer">Write a story</button>
+                <Link to="/home"> <button className="py-2 px-5 bg-black rounded-4xl cursor-pointer">Start reading </button> </Link>
+                <Link to="/home">  <button className="py-2 px-5 bg-black rounded-4xl cursor-pointer"> Write a story </button> </Link>
                 </div>
             </div>
             <div className="right-section rounded-lg h-full overflow-hidden">

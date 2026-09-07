@@ -3,20 +3,20 @@ import { BiKey, BiUser } from 'react-icons/bi'
 import { MdAlternateEmail } from "react-icons/md";
 import { IoMdEye, IoIosEyeOff } from "react-icons/io";
 import { login } from '../../features/auth/authSlice';
-import {useSelector, useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { useNavigate, Link } from 'react-router';
 import axios from 'axios';
 import './login.css';
 import Signup from '../SignupPage/Signup';
 
 const Login = () => {
+    const navigate = useNavigate();
     const icon_size = 30;
     const icon_field_gap = 4;
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [visible, setVisible] = useState(false);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const handleEmail = (e)=>{
         setEmail(e.target.value);
     }
@@ -34,7 +34,6 @@ const Login = () => {
                 email : email,
                 password : password
             })
-            // console.log(data.data.user);
             dispatch(login(data.data.user))
             navigate('/home')
         }
