@@ -6,7 +6,7 @@ import "./post.css"
 
 const Post = ({ id, title, desc, thumbnail, author }) => {
     return (
-        <div key={id} className="post-card w-[65vw] py-3 px-5 my-5 flex flex-col border-b border-gray-100">
+        <div key={id} className="post-card w-[65vw] py-3 px-5 my-5 flex flex-col gap-3 border-b border-gray-100">
             <span className="user_info flex items-center gap-2">
                 <img className="user_pic" src="https://images.unsplash.com/profile-1743420226636-efaa285e9f95image?w=150&dpr=1&crop=faces&bg=%23fff&h=150&auto=format&fit=crop&q=60&ixlib=rb-4.1.0" alt="hello" />
                 <p className="user_name">{author}</p>

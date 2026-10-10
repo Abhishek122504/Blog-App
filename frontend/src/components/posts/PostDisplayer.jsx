@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Post from '../post/Post';
+import { Link } from 'react-router';
 import axios from 'axios';
 import "./postDisp.css";
 
@@ -18,7 +19,7 @@ const PostDisplayer = () => {
 
         try {
             setLoading(true);
-            if(!hasMore) return;
+            if (!hasMore) return;
             const data = await axios.get(
                 `/api/v1/post/getAllPosts?page=${page}&limit=${postPerPage}`
             );
@@ -41,9 +42,6 @@ const PostDisplayer = () => {
     }, []);
 
     useEffect(() => {
-        if (loading || !hasMore) {
-            return;
-        }
         const observer = new IntersectionObserver(
             (entries) => {
                 const entry = entries[0];
@@ -76,24 +74,28 @@ const PostDisplayer = () => {
                                 key={post._id}
                                 ref={observered}
                             >
-                                <Post
-                                    id={post._id}
-                                    title={post.title}
-                                    desc={post.desc}
-                                    thumbnail={post.thumbnail}
-                                    author={post.postedBy.username}
-                                />
+                                <Link to={`/post/${post._id}`} key={post._id}>
+                                    <Post
+                                        id={post._id}
+                                        title={post.title}
+                                        desc={post.desc}
+                                        thumbnail={post.thumbnail}
+                                        author={post.postedBy.username}
+                                    />
+                                </Link>
                             </div>
                         );
                     }
                     return (
-                        <Post
-                            key={post._id}
-                            id={post._id}
-                            title={post.title}
-                            desc={post.desc}
-                            thumbnail={post.thumbnail}
-                        />
+                        <Link to={`/post/${post._id}`} key={post._id}>
+                            <Post
+                                id={post._id}
+                                title={post.title}
+                                desc={post.desc}
+                                thumbnail={post.thumbnail}
+                                author={post.postedBy.username}
+                            />
+                        </Link>
                     );
                 })
             }

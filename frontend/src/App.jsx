@@ -12,6 +12,7 @@ import Layout from './Layout';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import HomeLayout from './pages/homePage/HomeLayout';
 import AuthInitializer from './features/auth/AuthInitializer';
+import Viewpost from './pages/viewPostPage/Viewpost';
 
 const route = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ const route = createBrowserRouter([
       {
         path: "post",
         element: <Createpost />
+      },
+      {
+        path: "post/:id",
+        element: <Viewpost />
       }
     ]
   },

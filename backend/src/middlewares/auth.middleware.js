@@ -3,22 +3,54 @@ import { User } from "../models/user.model.js";
 
 const verifyJWT = async (req, res, next) => {
     try {
-        const refreshToken = req.cookies.refreshToken || req.header("Authorization")?.replace("Bearer", "");
+        const accessToken = req.cookies.accessToken || req.header("Authorization")?.replace("Bearer ", "");
+        const refreshToken = req.cookies.refreshToken;
+        let user = null;
+        let newAccessToken = undefined;
 
-        if (!refreshToken) {
-            return res.status(401).json({ msg: "Unauthorized access" });
+        if (accessToken) {
+            try {
+                const decodedAccessToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+                user = await User.findById(decodedAccessToken._id).select("-password -refreshToken");
+
+            } catch (error) {
+                console.log(error);
+            }
         }
 
-        const decodedToken = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+        if(!user && refreshToken){
+            try{
+                const decodedRefreshToken = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
 
-        if (!decodedToken) {
-            return res.status(401).json({ msg: "Unauthorized access" });
+                const id = decodedRefreshToken._id;
+                user = await User.findById(id).select("-password -refreshToken");
+                if (!user) {
+                    return res.status(401).json({
+                        msg: "User not found"
+                    });
+                }
+                newAccessToken = user.generateAccess(id);
+
+                res.cookie(
+                    "accessToken", newAccessToken,
+                    {
+                        httpOnly: true,
+                        secure: process.env.NODE_ENV === "production",
+                        maxAge: 10 * 1000
+                    }
+                )    
+            }
+            catch(error){
+                return res.status(401).json({
+                    msg: "Invalid or expired refresh token"
+                });
+            }
         }
 
-        const user = await User.findById(decodedToken._id).select("-password -refreshToken");
         if (!user) {
             return res.status(401).json({ msg: "Invalid Access Token" });
         }
+        user.accessToken = newAccessToken;
 
         req.user = user;
         next();

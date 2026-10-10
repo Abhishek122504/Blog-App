@@ -2,6 +2,21 @@ import { Post } from "../models/post.model.js"
 import { uploadOnCloudinary } from "../utilities/cloudinary.js";
 
 
+const getPost = async(req, res) =>{
+    const {postId} = req.params;
+
+    if(!postId){
+        return res.status(401).json({msg: "invalid-action"});
+    }
+
+    const post = await Post.findById(postId).populate("postedBy", "username avatar");
+    if(!post){
+        return res.status(500).json({msg: "some internal error occured"});
+    }
+
+    return res.status(200).json({post: post});
+}
+
 const getAllPosts = async (req, res) => {
     try {
         const page = Number(req.query.page) || 1;
@@ -127,5 +142,6 @@ export {
     uploadPost,
     editPost,
     deletePost,
-    getAllPosts
+    getAllPosts,
+    getPost
 }

@@ -94,12 +94,12 @@ const login = async (req, res) => {
     const { accessToken, refreshToken } = await generateAccessAndRefresh(user._id);
     const options = {
         httpOnly: true,
-        secure: true
+        secure: process.env.NODE_ENV === "production"
     }
 
     return res.status(200)
-        .cookie("accessToken", accessToken, options)
-        .cookie("refreshToken", refreshToken, options)
+        .cookie("accessToken", accessToken, {...options, maxAge: 10 * 1000})
+        .cookie("refreshToken", refreshToken, {...options, maxAge: 7 * 24 * 60 * 60 * 1000})
         .json({ user: returnUserData, message: "Logged in Successfully!" })
 
 }
